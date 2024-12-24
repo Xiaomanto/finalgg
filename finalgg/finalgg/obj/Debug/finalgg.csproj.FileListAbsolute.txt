@@ -1,0 +1,8 @@
+C:\Users\Administrator\Desktop\finalgg\finalgg\obj\Debug\finalgg.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\finalgg\finalgg\obj\Debug\finalgg.Properties.Resources.resources
+C:\Users\Administrator\Desktop\finalgg\finalgg\obj\Debug\finalgg.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\finalgg\finalgg\finalgg.exe.config
+C:\Users\Administrator\Desktop\finalgg\finalgg\obj\Debug\finalgg.exe
+C:\Users\Administrator\Desktop\finalgg\finalgg\obj\Debug\finalgg.pdb
+C:\Users\Administrator\Desktop\finalgg\finalgg\finalgg.exe
+C:\Users\Administrator\Desktop\finalgg\finalgg\finalgg.pdb
