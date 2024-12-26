@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "新增設定檔",
+    "Projects": [
+      {
+        "Path": "WindowsFormsApp1\\WindowsFormsApp1.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "WindowsFormsApp2\\WindowsFormsApp2.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
