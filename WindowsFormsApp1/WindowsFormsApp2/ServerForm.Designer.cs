@@ -29,18 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.database1DataSet1 = new WindowsFormsApp2.Database1DataSet1();
+            this.tb1BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tb1TableAdapter = new WindowsFormsApp2.Database1DataSet1TableAdapters.tb1TableAdapter();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.passwordDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iPDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.database1DataSet1 = new WindowsFormsApp2.Database1DataSet1();
-            this.tb1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.tb1TableAdapter1 = new WindowsFormsApp2.Database1DataSet1TableAdapters.tb1TableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.database1DataSet1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tb1BindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tb1BindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // dataGridView1
             // 
@@ -52,14 +57,28 @@
             this.idDataGridViewTextBoxColumn,
             this.passwordDataGridViewTextBoxColumn,
             this.iPDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.tb1BindingSource1;
-            this.dataGridView1.Location = new System.Drawing.Point(43, 46);
+            this.dataGridView1.DataSource = this.tb1BindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(13, 13);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 38;
-            this.dataGridView1.Size = new System.Drawing.Size(1694, 700);
+            this.dataGridView1.Size = new System.Drawing.Size(1866, 764);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // database1DataSet1
+            // 
+            this.database1DataSet1.DataSetName = "Database1DataSet1";
+            this.database1DataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // tb1BindingSource
+            // 
+            this.tb1BindingSource.DataMember = "tb1";
+            this.tb1BindingSource.DataSource = this.database1DataSet1;
+            // 
+            // tb1TableAdapter
+            // 
+            this.tb1TableAdapter.ClearBeforeFill = true;
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -88,25 +107,6 @@
             this.iPDataGridViewTextBoxColumn.ReadOnly = true;
             this.iPDataGridViewTextBoxColumn.Width = 200;
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // database1DataSet1
-            // 
-            this.database1DataSet1.DataSetName = "Database1DataSet1";
-            this.database1DataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // tb1BindingSource1
-            // 
-            this.tb1BindingSource1.DataMember = "tb1";
-            this.tb1BindingSource1.DataSource = this.database1DataSet1;
-            // 
-            // tb1TableAdapter1
-            // 
-            this.tb1TableAdapter1.ClearBeforeFill = true;
-            // 
             // ServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
@@ -115,24 +115,24 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "ServerForm";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ServerForm_FormClosed);
             this.Load += new System.EventHandler(this.ServerForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.database1DataSet1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tb1BindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tb1BindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
+        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private Database1DataSet1 database1DataSet1;
+        private System.Windows.Forms.BindingSource tb1BindingSource;
+        private Database1DataSet1TableAdapters.tb1TableAdapter tb1TableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn iPDataGridViewTextBoxColumn;
-        private System.Windows.Forms.Timer timer1;
-        private Database1DataSet1 database1DataSet1;
-        private System.Windows.Forms.BindingSource tb1BindingSource1;
-        private Database1DataSet1TableAdapters.tb1TableAdapter tb1TableAdapter1;
     }
 }
 

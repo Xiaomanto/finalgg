@@ -422,8 +422,8 @@ namespace WindowsFormsApp2 {
                 this.columnIP = new global::System.Data.DataColumn("IP", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnIP);
                 this.columnId.MaxLength = 10;
-                this.columnpassword.MaxLength = 10;
-                this.columnIP.MaxLength = 10;
+                this.columnpassword.MaxLength = 100;
+                this.columnIP.MaxLength = 100;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

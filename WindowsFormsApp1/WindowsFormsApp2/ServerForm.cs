@@ -15,7 +15,7 @@ namespace WindowsFormsApp2
 {
     public partial class ServerForm : Form
     {
-        UdpClient udp = new UdpClient(3306);
+        UdpClient udp = new UdpClient(3307);
         IPEndPoint ep;
         IPEndPoint rep = new IPEndPoint(IPAddress.Any,0);
 
@@ -34,7 +34,7 @@ namespace WindowsFormsApp2
         private void ServerForm_Load(object sender, EventArgs e)
         {
             // TODO: 這行程式碼會將資料載入 'database1DataSet1.tb1' 資料表。您可以視需要進行移動或移除。
-            this.tb1TableAdapter1.Fill(this.database1DataSet1.tb1);
+            this.tb1TableAdapter.Fill(this.database1DataSet1.tb1);
 
         }
 
@@ -44,7 +44,6 @@ namespace WindowsFormsApp2
         {
             if (udp.Available > 0)
             {
-                
                 byte[] buffer = udp.Receive(ref rep);
                 string rawdata = Encoding.Unicode.GetString(buffer);
                 string ip = rep.Address.ToString();
@@ -53,6 +52,7 @@ namespace WindowsFormsApp2
                 switch (token[0])
                 {
                     case "login":
+
                         conn.Open();
                         username = token[1];
                         string pwd = token[2];
@@ -64,7 +64,6 @@ namespace WindowsFormsApp2
                         while(dr.Read())
                             password = dr["password"].ToString().Replace(" ","");
                         dr.Close();
-                        MessageBox.Show(password+":"+pwd);
                         if (pwd == password)
                         {
                             cmd = new SqlCommand("update tb1 set IP=@ip where Id=@id",conn);
@@ -77,10 +76,14 @@ namespace WindowsFormsApp2
                             dr = cmd.ExecuteReader();
                             while (dr.Read())
                             {
-                                sndmsg("loginMsg:" + username, dr["IP"].ToString());
-                                sndmsg("loginMsg:" + dr["Id"].ToString(), ip);
+                                sndmsg("loginMsg:" + username +":"+ dr["IP"].ToString().Replace(" ", ""), dr["IP"].ToString().Replace(" ",""));
+                                sndmsg("loginMsg:" + dr["Id"].ToString()+":"+ip, ip);
                             }
                             dr.Close();
+                        }
+                        else
+                        {
+                            sndmsg("error:帳號或密碼錯誤",ip);
                         }
 
                         break;
@@ -95,13 +98,21 @@ namespace WindowsFormsApp2
                         SqlDataReader dr2 = cmd.ExecuteReader();
                         while (dr2.Read())
                         {
-                            sndmsg("logoutMsg:" + username, dr2["IP"].ToString());
+                            sndmsg("logoutMsg:" + username+":"+ dr2["IP"].ToString().Replace(" ", ""), dr2["IP"].ToString().Replace(" ",""));
                         }
                         break;
                 }
-                this.tb1TableAdapter1.Fill(this.database1DataSet1.tb1);
+                this.tb1TableAdapter.Fill(this.database1DataSet1.tb1);
                 conn.Close();
             }
+        }
+
+        private void ServerForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SqlCommand cmd = new SqlCommand("update tb1 set IP = NULL", conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

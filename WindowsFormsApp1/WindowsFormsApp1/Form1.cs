@@ -24,19 +24,27 @@ namespace WindowsFormsApp1
         public static string username = "";
         public static void sndmsg(string ip,string msg)
         {
-            sep = new IPEndPoint(IPAddress.Parse(ip), 3306);
+            sep = new IPEndPoint(IPAddress.Parse(ip), 3307);
             byte[] data = Encoding.Unicode.GetBytes(msg);
             udp.Send(data, data.Length, sep);
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            username = textBox1.Text;
+            string password = textBox2.Text;
+            if(username.Replace(" ","") == null || username.Replace(" ", "") == "")
+            {
+                MessageBox.Show("帳號不可為空"); return;
+            }
+            if(password.Replace(" ", "") == null || password.Replace(" ", "") == "")
+            {
+                MessageBox.Show("密碼不可為空"); return;
+            }
             if (udp == null)
             {
                 udp = new UdpClient(3000);
                 timer1.Enabled = true;
-                username = textBox1.Text;
-                string password = textBox2.Text;
-                sndmsg("127.0.0.1", "login:" + username + ":" + password);
+                sndmsg("172.18.241.126", "login:" + username + ":" + password);
                 button1.Visible = false;
                 button2.Visible = true;
             }
@@ -89,6 +97,18 @@ namespace WindowsFormsApp1
                             friends[i].Show();
                         }
                         break;
+                    case "error":
+                        if (token[1].Contains("帳號"))
+                        {
+                            timer1.Enabled = false;
+                            udp.Close();
+                            udp = null;
+                            listBox1.Items.Clear();
+                            button2.Visible = false;
+                            button1.Visible = true;
+                        }
+                        MessageBox.Show(token[1]);
+                        break;
                 }
             }
         }
@@ -96,14 +116,14 @@ namespace WindowsFormsApp1
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (udp != null)
-                sndmsg("127.0.0.1", "logout:" + username);
+                sndmsg("172.18.241.126", "logout:" + username);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             if (udp != null)
             {
-                sndmsg("127.0.0.1", "logout:" + username);
+                sndmsg("172.18.241.126", "logout:" + username);
                 timer1.Enabled = false;
                 udp.Close();
                 udp = null;

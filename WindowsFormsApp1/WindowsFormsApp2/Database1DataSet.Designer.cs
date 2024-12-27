@@ -422,8 +422,8 @@ namespace WindowsFormsApp2 {
                 this.columnIP = new global::System.Data.DataColumn("IP", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnIP);
                 this.columnId.MaxLength = 10;
-                this.columnpassword.MaxLength = 10;
-                this.columnIP.MaxLength = 10;
+                this.columnpassword.MaxLength = 100;
+                this.columnIP.MaxLength = 100;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -825,7 +825,7 @@ namespace WindowsFormsApp2.Database1DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::WindowsFormsApp2.Properties.Settings.Default.Database1ConnectionString;
+            this._connection.ConnectionString = global::WindowsFormsApp2.Properties.Settings.Default.Database1ConnectionString1;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
