@@ -100,6 +100,19 @@ namespace WindowsFormsApp2
                         {
                             sndmsg("logoutMsg:" + username+":"+ dr2["IP"].ToString().Replace(" ", ""), dr2["IP"].ToString().Replace(" ",""));
                         }
+                        dr2.Close();
+                        break;
+                    case "message":
+                        conn.Open();
+                        cmd = new SqlCommand("select IP from tb1 where Id=@id",conn);
+                        cmd.Parameters.Add(new SqlParameter("@id", token[1]));
+                        SqlDataReader dr3 = cmd.ExecuteReader();
+                        string targetip = "";
+                        while (dr3.Read())
+                        {
+                            targetip = dr3["IP"].ToString().Replace(" ","");
+                        }
+                        sndmsg("message:" + token[1] + ":" + token[2],targetip);
                         break;
                 }
                 this.tb1TableAdapter.Fill(this.database1DataSet1.tb1);

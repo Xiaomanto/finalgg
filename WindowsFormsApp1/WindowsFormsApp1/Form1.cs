@@ -19,6 +19,7 @@ namespace WindowsFormsApp1
         }
         static UdpClient udp;
         static IPEndPoint sep;
+        string serverip = "172.18.241.126";
         IPEndPoint rep = new IPEndPoint(IPAddress.Any, 0);
         Form2[] friends = new Form2[10];
         public static string username = "";
@@ -44,7 +45,7 @@ namespace WindowsFormsApp1
             {
                 udp = new UdpClient(3000);
                 timer1.Enabled = true;
-                sndmsg("172.18.241.126", "login:" + username + ":" + password);
+                sndmsg(serverip, "login:" + username + ":" + password);
                 button1.Visible = false;
                 button2.Visible = true;
             }
@@ -91,7 +92,7 @@ namespace WindowsFormsApp1
                             int i = 0;
                             while (friends[i].Tag != null) i++;
                             friends[i] = new Form2();
-                            friends[i].Tag = token[2];
+                            friends[i].Tag = serverip;
                             friends[i].Text = friendname;
                             friends[i].textBox2.Text += msg + Environment.NewLine + Environment.NewLine;
                             friends[i].Show();
@@ -116,14 +117,14 @@ namespace WindowsFormsApp1
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (udp != null)
-                sndmsg("172.18.241.126", "logout:" + username);
+                sndmsg(serverip, "logout:" + username);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             if (udp != null)
             {
-                sndmsg("172.18.241.126", "logout:" + username);
+                sndmsg(serverip, "logout:" + username);
                 timer1.Enabled = false;
                 udp.Close();
                 udp = null;
@@ -159,7 +160,7 @@ namespace WindowsFormsApp1
                 int i = 0;
                 while (friends[i].Tag != null) i++;
                 friends[i] = new Form2();
-                friends[i].Tag = friendip;
+                friends[i].Tag = serverip;
                 friends[i].Text = friendname;
                 friends[i].Show();
             }
