@@ -24,7 +24,7 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form1.sndmsg(this.Tag.ToString(), "message:" + Form1.username + ":" + textBox1.Text);
+            Form1.sndmsg(this.Tag.ToString(), "message:" + this.Text + ":" + textBox1.Text);
             textBox2.Text += textBox1.Text + Environment.NewLine + Environment.NewLine;
             textBox1.Text = "";
         }

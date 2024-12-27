@@ -90,9 +90,9 @@ namespace WindowsFormsApp2
                     case "logout":
                         conn.Open();
                         username = token[1];
-                        cmd = new SqlCommand("update tb1 set IP = NULL where Id=@id ",conn);
-                        cmd.Parameters.Add(new SqlParameter("@id", username));
-                        cmd.ExecuteNonQuery();
+                        SqlCommand cmd2 = new SqlCommand("update tb1 set IP = NULL where Id=@id ",conn);
+                        cmd2.Parameters.Add(new SqlParameter("@id", username));
+                        cmd2.ExecuteNonQuery();
 
                         cmd = new SqlCommand("select IP from tb1 where IP IS NOT NULL", conn);
                         SqlDataReader dr2 = cmd.ExecuteReader();
@@ -104,9 +104,11 @@ namespace WindowsFormsApp2
                         break;
                     case "message":
                         conn.Open();
-                        cmd = new SqlCommand("select IP from tb1 where Id=@id",conn);
-                        cmd.Parameters.Add(new SqlParameter("@id", token[1]));
-                        SqlDataReader dr3 = cmd.ExecuteReader();
+                        SqlCommand cmd3 = new SqlCommand("select IP from tb1 where Id=@id",conn);
+                        cmd3.Parameters.Add(new SqlParameter("@id", token[1]));
+                        SqlDataReader dr3 = cmd3
+                            
+                            .ExecuteReader();
                         string targetip = "";
                         while (dr3.Read())
                         {
