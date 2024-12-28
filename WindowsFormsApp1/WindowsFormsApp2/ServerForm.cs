@@ -62,18 +62,18 @@ namespace WindowsFormsApp2
                 switch (token[0])
                 {
                     case "login":
-
-                        conn.Open();
+                        if (conn.State == ConnectionState.Closed)
+                            conn.Open();
                         username = token[1];
                         string pwd = token[2];
                         SqlCommand cmd = new SqlCommand("select password from tb1 where Id=@id",conn);
                         cmd.Parameters.Add(new SqlParameter("@id", username));
                         SqlDataReader dr = cmd.ExecuteReader();
                         string password = "";
-                        
                         while(dr.Read())
                             password = dr["password"].ToString().Replace(" ","");
                         dr.Close();
+                        conn.Close();
                         md5.Key = Encoding.Unicode.GetBytes(username.Substring(0,8));
                         string hashpwd = BitConverter.ToString(md5.ComputeHash(Encoding.Unicode.GetBytes(pwd))).Replace("-","").ToUpper();
                         if (hashpwd == password)
@@ -81,10 +81,12 @@ namespace WindowsFormsApp2
                             cmd = new SqlCommand("update tb1 set IP=@ip where Id=@id",conn);
                             cmd.Parameters.Add(new SqlParameter("@ip",ip));
                             cmd.Parameters.Add(new SqlParameter("@id", username));
+                            conn.Open();
                             cmd.ExecuteNonQuery();
-                        
+                            conn.Close();
                             cmd = new SqlCommand("select Id,IP from tb1 where IP IS NOT NULL and IP != @ip",conn);
                             cmd.Parameters.Add(new SqlParameter("@ip", ip));
+                            conn.Open();
                             dr = cmd.ExecuteReader();
                             while (dr.Read())
                             {
@@ -92,6 +94,7 @@ namespace WindowsFormsApp2
                                 sndmsg("loginMsg:" + dr["Id"].ToString()+":"+ip, ip);
                             }
                             dr.Close();
+                            conn.Close();
                             sndmsg("success:登入成功",ip);
                         }
                         else
@@ -104,44 +107,64 @@ namespace WindowsFormsApp2
 
                         break;
                     case "register":
-                        SqlCommand cmd1 = new SqlCommand("insert into tb1 values(@id,@password,NULL)",conn);
+                        SqlCommand cmd1 = new SqlCommand("select * from tb1 where Id = @id",conn);
+                        cmd1.Parameters.Add(new SqlParameter("@id", token[1]));
+                        if (conn.State == ConnectionState.Closed)
+                            conn.Open();
+                        SqlDataReader dr1 = cmd1.ExecuteReader();
+                        while (dr1.Read())
+                        {
+                            sndmsg("error:帳號已存在請重新註冊",ip);
+                            dr1.Close();
+                            conn.Close();
+                            return;
+                            break;
+                        }
+                        dr1.Close();
+                        conn.Close();
+                        cmd1 = new SqlCommand("insert into tb1 values(@id,@password,NULL)",conn);
                         cmd1.Parameters.Add(new SqlParameter("@id", token[1]));
                         cmd1.Parameters.Add(new SqlParameter("@password", token[2]));
                         conn.Open();
                         cmd1.ExecuteNonQuery();
+                        conn.Close();
                         sndmsg("error:註冊成功", ip);
                         break;
                     case "logout":
-                        conn.Open();
+                        if (conn.State == ConnectionState.Closed)
+                            conn.Open();
                         username = token[1];
                         SqlCommand cmd2 = new SqlCommand("update tb1 set IP = NULL where Id=@id ",conn);
                         cmd2.Parameters.Add(new SqlParameter("@id", username));
                         cmd2.ExecuteNonQuery();
-
+                        conn.Close();
                         cmd = new SqlCommand("select IP from tb1 where IP IS NOT NULL", conn);
+                        conn.Open();
                         SqlDataReader dr2 = cmd.ExecuteReader();
                         while (dr2.Read())
                         {
                             sndmsg("logoutMsg:" + username+":"+ dr2["IP"].ToString().Replace(" ", ""), dr2["IP"].ToString().Replace(" ",""));
                         }
                         dr2.Close();
+                        conn.Close();
                         break;
                     case "message":
-                        conn.Open();
+                        if (conn.State == ConnectionState.Closed);
+                            conn.Open();
                         SqlCommand cmd3 = new SqlCommand("select IP from tb1 where Id=@id",conn);
                         cmd3.Parameters.Add(new SqlParameter("@id", token[1]));
-                        SqlDataReader dr3 = cmd3
-                            .ExecuteReader();
+                        SqlDataReader dr3 = cmd3.ExecuteReader();
                         string targetip = "";
                         while (dr3.Read())
                         {
                             targetip = dr3["IP"].ToString().Replace(" ","");
                         }
+                        dr3.Close();
+                        conn.Close();
                         sndmsg("message:" + token[1] + ":" + token[2],targetip);
                         break;
                 }
                 this.tb1TableAdapter.Fill(this.database1DataSet1.tb1);
-                conn.Close();
             }
         }
 
