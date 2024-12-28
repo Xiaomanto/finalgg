@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
+
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
@@ -19,23 +21,26 @@ namespace WindowsFormsApp1
         }
         static UdpClient udp;
         static IPEndPoint sep;
-        string serverip = "172.18.241.126";
-        IPEndPoint rep = new IPEndPoint(IPAddress.Any, 0);
+        static string serverip = "192.168.119.204";
+        IPEndPoint rep = new IPEndPoint(IPAddress.Parse(serverip), 0);
         Form2[] friends = new Form2[10];
         public static string username = "";
         public static void sndmsg(string ip,string msg)
         {
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            byte[] cipher = rsa.Encrypt(Encoding.Unicode.GetBytes(msg),false);
+            string cipherstr = Convert.ToBase64String(cipher);
             sep = new IPEndPoint(IPAddress.Parse(ip), 3307);
-            byte[] data = Encoding.Unicode.GetBytes(msg);
+            byte[] data = Encoding.Unicode.GetBytes(cipherstr+":"+rsa.ToXmlString(true));
             udp.Send(data, data.Length, sep);
         }
         private void button1_Click(object sender, EventArgs e)
         {
             username = textBox1.Text;
             string password = textBox2.Text;
-            if(username.Replace(" ","") == null || username.Replace(" ", "") == "")
+            if(username.Replace(" ",string.Empty) == null || username.Replace(" ", string.Empty) == "" || username.Replace(" ",string.Empty).Length < 8)
             {
-                MessageBox.Show("帳號不可為空"); return;
+                MessageBox.Show("帳號不可為空 且不可低於8碼"); return;
             }
             if(password.Replace(" ", "") == null || password.Replace(" ", "") == "")
             {
@@ -59,8 +64,13 @@ namespace WindowsFormsApp1
         {
             if(udp.Available > 0)
             {
-                byte[] data = udp.Receive(ref rep);
-                string rawstring = Encoding.Unicode.GetString(data);
+                RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+                byte[] buffer = udp.Receive(ref rep);
+                string rawstring = Encoding.Unicode.GetString(buffer);
+                string[] cipherstr = rawstring.Split(':');
+                rsa.FromXmlString(cipherstr[1]);
+                byte[] plain = rsa.Decrypt(Convert.FromBase64String(cipherstr[0]), false);
+                rawstring = Encoding.Unicode.GetString(plain);
                 string[] token = rawstring.Split(':');
                 switch (token[0])
                 {
@@ -98,16 +108,16 @@ namespace WindowsFormsApp1
                             friends[i].Show();
                         }
                         break;
+                    case "success":
+                        MessageBox.Show(token[1]);
+                        break;
                     case "error":
-                        if (token[1].Contains("帳號"))
-                        {
-                            timer1.Enabled = false;
-                            udp.Close();
-                            udp = null;
-                            listBox1.Items.Clear();
-                            button2.Visible = false;
-                            button1.Visible = true;
-                        }
+                        timer1.Enabled = false;
+                        udp.Close();
+                        udp = null;
+                        listBox1.Items.Clear();
+                        button2.Visible = false;
+                        button1.Visible = true;
                         MessageBox.Show(token[1]);
                         break;
                 }
@@ -163,6 +173,22 @@ namespace WindowsFormsApp1
                 friends[i].Tag = serverip;
                 friends[i].Text = friendname;
                 friends[i].Show();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (textBox2.Text == null || textBox2.Text.Replace(" ",string.Empty) == "" || textBox1.Text == null || textBox1.Text.Replace(" ",string.Empty) == "" || textBox1.Text.Length < 8)
+            {
+                MessageBox.Show("帳號 / 密碼不可為空,帳號須超過 8 碼");
+                return;
+            }
+            if (udp == null) { 
+                udp = new UdpClient(3000);
+                timer1.Enabled = true;
+                HMACMD5 md5 = new HMACMD5();
+                md5.Key = Encoding.Unicode.GetBytes(textBox1.Text.Substring(0,8));
+                sndmsg(serverip,"register:"+textBox1.Text+":"+BitConverter.ToString(md5.ComputeHash(Encoding.Unicode.GetBytes(textBox2.Text))).Replace("-",string.Empty).ToUpper());
             }
         }
     }

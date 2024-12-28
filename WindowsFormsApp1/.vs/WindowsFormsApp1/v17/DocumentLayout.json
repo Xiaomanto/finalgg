@@ -9,6 +9,13 @@
     {
       "AbsoluteMoniker": "D:0:0:{BC953F30-A3ED-4BB7-8283-448E7DCE6D20}|WindowsFormsApp1\\WindowsFormsApp1.csproj|c:\\users\\administrator\\desktop\\finalgg\\windowsformsapp1\\windowsformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BC953F30-A3ED-4BB7-8283-448E7DCE6D20}|WindowsFormsApp1\\WindowsFormsApp1.csproj|solutionrelative:windowsformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC953F30-A3ED-4BB7-8283-448E7DCE6D20}|WindowsFormsApp1\\WindowsFormsApp1.csproj|C:\\Users\\Administrator\\Desktop\\finalgg\\WindowsFormsApp1\\windowsformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{BC953F30-A3ED-4BB7-8283-448E7DCE6D20}|WindowsFormsApp1\\WindowsFormsApp1.csproj|solutionrelative:windowsformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_LocalDB__MSSQLLocalDB/C__USERS_ADMINISTRATOR_DESKTOP_FINALGG_WINDOWSFORMSAPP1_WINDOWSFORMSAPP2_DATABASE1.MDF/True/SqlTable/dbo.tb1.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +25,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "dbo.tb1 [\u8CC7\u6599]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_LocalDB__MSSQLLocalDB/C__USERS_ADMINISTRATOR_DESKTOP_FINALGG_WINDOWSFORMSAPP1_WINDOWSFORMSAPP2_DATABASE1.MDF/True/SqlTable/dbo.tb1.sql",
+              "ToolTip": "dbo.tb1 [\u8CC7\u6599]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2024-12-28T03:01:13.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs [\u8A2D\u8A08]",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\finalgg\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs",
+              "RelativeDocumentMoniker": "WindowsFormsApp1\\Form1.cs",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\finalgg\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs [\u8A2D\u8A08]",
+              "RelativeToolTip": "WindowsFormsApp1\\Form1.cs [\u8A2D\u8A08]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T08:32:22.828Z",
+              "EditorCaption": " [\u8A2D\u8A08]"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -28,7 +57,7 @@
               "RelativeDocumentMoniker": "WindowsFormsApp1\\Form1.cs",
               "ToolTip": "C:\\Users\\Administrator\\Desktop\\finalgg\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs",
               "RelativeToolTip": "WindowsFormsApp1\\Form1.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAqwKgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAmwG8AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T05:35:39.554Z",
               "EditorCaption": ""
@@ -41,7 +70,7 @@
               "RelativeDocumentMoniker": "WindowsFormsApp2\\ServerForm.cs",
               "ToolTip": "C:\\Users\\Administrator\\Desktop\\finalgg\\WindowsFormsApp1\\WindowsFormsApp2\\ServerForm.cs",
               "RelativeToolTip": "WindowsFormsApp2\\ServerForm.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAwG4AAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAywF4AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T05:34:13.033Z",
               "EditorCaption": ""

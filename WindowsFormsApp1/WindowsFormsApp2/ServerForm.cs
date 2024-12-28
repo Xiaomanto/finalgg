@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
 
 namespace WindowsFormsApp2
 {
@@ -26,8 +27,11 @@ namespace WindowsFormsApp2
 
         public void sndmsg(string msg,string ip)
         {
-            byte[] data = Encoding.Unicode.GetBytes(msg);
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            byte[] cipher = rsa.Encrypt(Encoding.Unicode.GetBytes(msg), false);
+            string cipherstr = Convert.ToBase64String(cipher);
             ep = new IPEndPoint(IPAddress.Parse(ip), 3000);
+            byte[] data = Encoding.Unicode.GetBytes(cipherstr + ":" + rsa.ToXmlString(true));
             udp.Send(data, data.Length, ep);
         }
 
@@ -39,13 +43,19 @@ namespace WindowsFormsApp2
         }
 
         SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True");
-        
+        HMACMD5 md5 = new HMACMD5();
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (udp.Available > 0)
             {
+                RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
                 byte[] buffer = udp.Receive(ref rep);
                 string rawdata = Encoding.Unicode.GetString(buffer);
+                string[] cipherstr = rawdata.Split(':');
+                rsa.FromXmlString(cipherstr[1]);
+                byte[] plain = rsa.Decrypt(Convert.FromBase64String(cipherstr[0]),false);
+                rawdata = Encoding.Unicode.GetString(plain);
                 string ip = rep.Address.ToString();
                 string[] token = rawdata.Split(':');
                 string username = "";
@@ -64,7 +74,9 @@ namespace WindowsFormsApp2
                         while(dr.Read())
                             password = dr["password"].ToString().Replace(" ","");
                         dr.Close();
-                        if (pwd == password)
+                        md5.Key = Encoding.Unicode.GetBytes(username.Substring(0,8));
+                        string hashpwd = BitConverter.ToString(md5.ComputeHash(Encoding.Unicode.GetBytes(pwd))).Replace("-","").ToUpper();
+                        if (hashpwd == password)
                         {
                             cmd = new SqlCommand("update tb1 set IP=@ip where Id=@id",conn);
                             cmd.Parameters.Add(new SqlParameter("@ip",ip));
@@ -80,12 +92,24 @@ namespace WindowsFormsApp2
                                 sndmsg("loginMsg:" + dr["Id"].ToString()+":"+ip, ip);
                             }
                             dr.Close();
+                            sndmsg("success:登入成功",ip);
                         }
                         else
                         {
-                            sndmsg("error:帳號或密碼錯誤",ip);
+                            if(password == null || password == "" || password == "NULL")
+                                sndmsg("error:帳號不存在，請先註冊", ip);
+                            else
+                                sndmsg("error:帳號或密碼錯誤",ip);
                         }
 
+                        break;
+                    case "register":
+                        SqlCommand cmd1 = new SqlCommand("insert into tb1 values(@id,@password,NULL)",conn);
+                        cmd1.Parameters.Add(new SqlParameter("@id", token[1]));
+                        cmd1.Parameters.Add(new SqlParameter("@password", token[2]));
+                        conn.Open();
+                        cmd1.ExecuteNonQuery();
+                        sndmsg("error:註冊成功", ip);
                         break;
                     case "logout":
                         conn.Open();
@@ -107,7 +131,6 @@ namespace WindowsFormsApp2
                         SqlCommand cmd3 = new SqlCommand("select IP from tb1 where Id=@id",conn);
                         cmd3.Parameters.Add(new SqlParameter("@id", token[1]));
                         SqlDataReader dr3 = cmd3
-                            
                             .ExecuteReader();
                         string targetip = "";
                         while (dr3.Read())
