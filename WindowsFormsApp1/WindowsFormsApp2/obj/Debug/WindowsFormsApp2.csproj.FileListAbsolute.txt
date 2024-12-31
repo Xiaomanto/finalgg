@@ -8,13 +8,14 @@ C:\Users\Administrator\Desktop\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\Windo
 C:\Users\Administrator\Desktop\WindowsFormsApp1\WindowsFormsApp2\WindowsFormsApp2.exe.config
 C:\Users\Administrator\Desktop\WindowsFormsApp1\WindowsFormsApp2\WindowsFormsApp2.exe
 C:\Users\Administrator\Desktop\WindowsFormsApp1\WindowsFormsApp2\WindowsFormsApp2.pdb
-C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.AssemblyReference.cache
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties.Resources.resources
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.ServerForm.resources
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.GenerateResource.cache
-C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\WindowsFormsApp2.exe.config
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\WindowsFormsApp2.exe
 C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\WindowsFormsApp2.pdb
+C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\Database1.mdf
+C:\Users\Administrator\Desktop\finalgg\WindowsFormsApp1\WindowsFormsApp2\Database1_log.ldf

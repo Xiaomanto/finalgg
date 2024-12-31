@@ -37,8 +37,8 @@ namespace WindowsFormsApp2
 
         private void ServerForm_Load(object sender, EventArgs e)
         {
-            // TODO: 這行程式碼會將資料載入 'database1DataSet1.tb1' 資料表。您可以視需要進行移動或移除。
-            this.tb1TableAdapter.Fill(this.database1DataSet1.tb1);
+            // TODO: 這行程式碼會將資料載入 'database1DataSet.tb1' 資料表。您可以視需要進行移動或移除。
+            this.tb1TableAdapter.Fill(this.database1DataSet.tb1);
 
         }
 
@@ -164,7 +164,7 @@ namespace WindowsFormsApp2
                         sndmsg("message:" + token[1] + ":" + token[2],targetip);
                         break;
                 }
-                this.tb1TableAdapter.Fill(this.database1DataSet1.tb1);
+                this.tb1TableAdapter.Fill(this.database1DataSet.tb1);
             }
         }
 
@@ -174,6 +174,11 @@ namespace WindowsFormsApp2
             conn.Open();
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

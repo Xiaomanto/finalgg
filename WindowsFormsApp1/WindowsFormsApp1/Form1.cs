@@ -21,7 +21,7 @@ namespace WindowsFormsApp1
         }
         static UdpClient udp;
         static IPEndPoint sep;
-        static string serverip = "192.168.119.204";
+        static string serverip = "172.18.11.53";
         IPEndPoint rep = new IPEndPoint(IPAddress.Parse(serverip), 0);
         Form2[] friends = new Form2[10];
         public static string username = "";
