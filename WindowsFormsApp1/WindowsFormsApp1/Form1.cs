@@ -68,6 +68,7 @@ namespace WindowsFormsApp1
                 byte[] buffer = udp.Receive(ref rep);
                 string rawstring = Encoding.Unicode.GetString(buffer);
                 string[] cipherstr = rawstring.Split(':');
+                if (cipherstr[0] == "login" || cipherstr[0] == "logout") return;
                 rsa.FromXmlString(cipherstr[1]);
                 byte[] plain = rsa.Decrypt(Convert.FromBase64String(cipherstr[0]), false);
                 rawstring = Encoding.Unicode.GetString(plain);
@@ -90,7 +91,7 @@ namespace WindowsFormsApp1
 
                         for (int i = 0; i < friends.Length; i++)
                         {
-                            if (token[2] == (string)friends[i].Tag)
+                            if (friendname == (string)friends[i].Text)
                             {
                                 talking = true;
                                 friends[i].textBox2.Text += msg + Environment.NewLine + Environment.NewLine;
@@ -159,7 +160,7 @@ namespace WindowsFormsApp1
             string friendip = listBox1.SelectedItem.ToString().Split(':')[1];
             for(int i = 0; i < friends.Length; i++)
             {
-                if(friendip == (string)friends[i].Tag)
+                if(friendname == (string)friends[i].Text)
                 {
                     talking = true;
                     friends[i].Select();

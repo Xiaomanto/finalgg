@@ -23,6 +23,10 @@ namespace WindowsFormsApp2
         public ServerForm()
         {
             InitializeComponent();
+            SqlCommand cmd = new SqlCommand("update tb1 set IP = NULL", conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public void sndmsg(string msg,string ip)
@@ -62,12 +66,12 @@ namespace WindowsFormsApp2
                 switch (token[0])
                 {
                     case "login":
-                        if (conn.State == ConnectionState.Closed)
-                            conn.Open();
                         username = token[1];
                         string pwd = token[2];
                         SqlCommand cmd = new SqlCommand("select password from tb1 where Id=@id",conn);
                         cmd.Parameters.Add(new SqlParameter("@id", username));
+                        if (conn.State == ConnectionState.Closed)
+                            conn.Open();
                         SqlDataReader dr = cmd.ExecuteReader();
                         string password = "";
                         while(dr.Read())
@@ -131,11 +135,12 @@ namespace WindowsFormsApp2
                         sndmsg("error:註冊成功", ip);
                         break;
                     case "logout":
-                        if (conn.State == ConnectionState.Closed)
-                            conn.Open();
                         username = token[1];
+                        MessageBox.Show(username);
                         SqlCommand cmd2 = new SqlCommand("update tb1 set IP = NULL where Id=@id ",conn);
                         cmd2.Parameters.Add(new SqlParameter("@id", username));
+                        if (conn.State == ConnectionState.Closed)
+                            conn.Open();
                         cmd2.ExecuteNonQuery();
                         conn.Close();
                         cmd = new SqlCommand("select IP from tb1 where IP IS NOT NULL", conn);
@@ -149,19 +154,30 @@ namespace WindowsFormsApp2
                         conn.Close();
                         break;
                     case "message":
-                        if (conn.State == ConnectionState.Closed);
-                            conn.Open();
                         SqlCommand cmd3 = new SqlCommand("select IP from tb1 where Id=@id",conn);
                         cmd3.Parameters.Add(new SqlParameter("@id", token[1]));
+                        if (conn.State == ConnectionState.Closed);
+                            conn.Open();
                         SqlDataReader dr3 = cmd3.ExecuteReader();
                         string targetip = "";
+                        string sourceId = "";
                         while (dr3.Read())
                         {
                             targetip = dr3["IP"].ToString().Replace(" ","");
                         }
                         dr3.Close();
                         conn.Close();
-                        sndmsg("message:" + token[1] + ":" + token[2],targetip);
+                        cmd3 = new SqlCommand("select Id from tb1 where IP=@ip",conn);
+                        cmd3.Parameters.Add(new SqlParameter("@ip",ip));
+                        conn.Open();
+                        dr3 = cmd3.ExecuteReader();
+                        while (dr3.Read())
+                        {
+                            sourceId = dr3["Id"].ToString();
+                        }
+                        dr3.Close();
+                        conn.Close();
+                        sndmsg("message:" + sourceId + ":" + token[2],targetip);
                         break;
                 }
                 this.tb1TableAdapter.Fill(this.database1DataSet.tb1);
