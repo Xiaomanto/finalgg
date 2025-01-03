@@ -21,7 +21,7 @@ namespace WindowsFormsApp1
         }
         static UdpClient udp;
         static IPEndPoint sep;
-        static string serverip = "172.18.11.53";
+        static string serverip = "172.18.11.6";
         IPEndPoint rep = new IPEndPoint(IPAddress.Parse(serverip), 0);
         Form2[] friends = new Form2[10];
         public static string username = "";
@@ -68,7 +68,7 @@ namespace WindowsFormsApp1
                 byte[] buffer = udp.Receive(ref rep);
                 string rawstring = Encoding.Unicode.GetString(buffer);
                 string[] cipherstr = rawstring.Split(':');
-                if (cipherstr[0] == "login" || cipherstr[0] == "logout") return;
+                if (cipherstr[0] == "login" || cipherstr[0] == "logout" || cipherstr.Length < 2) return;
                 rsa.FromXmlString(cipherstr[1]);
                 byte[] plain = rsa.Decrypt(Convert.FromBase64String(cipherstr[0]), false);
                 rawstring = Encoding.Unicode.GetString(plain);
